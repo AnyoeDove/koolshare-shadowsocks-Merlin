@@ -1,1 +1,0 @@
-/koolshare/ssid/ssid.sh
