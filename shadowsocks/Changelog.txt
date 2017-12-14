@@ -1,5 +1,185 @@
 Koolshare Asuswrt-Merlin shadowsocks Changelog
 ===========================================
+3.8.2 - 3.8.3
+   - fix	修复kcptun重启失败
+   - fix	修复chinadns2某些情况下开启失败的问题。
+   - fix	修复cdns方案下一些国内域名解析到国外ip的问题。
+   - update	更新5个国外DNS方案的说明，增加推荐等级。
+
+3.8.1
+   - fix	修复以前使用国内优先的用户升级到3.7.8 - 3.8.0后，国外不工作的问题。
+
+3.8.0
+   - fix	修复dns劫持功能失效导致自定义过DNS的出现问题。
+   - fix	修复chinadns2有时候启动失败的问题。
+   - revert	恢复原chinadns方案，为了区分命名为chinadns1，其中国dns使用【国内DNS设置的值】，上游方案固定为dns2socks。
+   - update	为了保证成功率，默认国外方案更换为dns2socks。
+
+3.7.9
+   - 说明	是否加会原来的一些dns解析方案待观察。
+   - fix	修复详细状态显示的信息不正确。
+
+3.7.8
+   - 说明	此次精简优化插件，为了提升DNS解析能力，移除了一些旧dns解析方案，
+		增加了更加科学好用的DNS解析方案，且设置上对小白非常友好。
+   - add	新增cdns解析方案，支持EDNS，自带国内外cdn（默认）；
+   - add	新增chinadns2解析方案，支持EDNS，自带国内外cdn；
+   - remove	移除dnscrypt-proxy解析方案;
+   - remove	移除pdnsd解析方案;
+   - remove	移除旧的chinadns解析方案;
+   - remove	移除Pcap_DNSproxy解析方案;
+   - remove	移除DNS偏好选择，改为后台自动判断优化;
+   - remove	移除chromecast设置，为了更好防dns污染，现在默认开启;
+   - remove	移除ss节点解析设置，改为后台自动判断优化;
+   - remove	移除国内cdn加速设置，因为现在dns方案具有cdn加速了;
+   - remove	移除黑科技按钮，以后需要截图请自行打码;
+   - remove	移除插件开机启动延迟;
+   - update	优化启动脚本，提升插件提交应用速度;
+
+3.7.7
+   - update	Pcap_DNSpproxy更新到最新0.4.9.5
+   - update	dnscrypt-proxy更新到最新1.9.5
+   - update	haproxy更新到最新1.8.1
+   - update	kcptun二进制更新到最新20171201
+   - update	更新socks5功能的gfwlist.acl
+   - update	同步最新ss规则和Pcap_DNSpproxy规则
+   - fix	现在kcptun串联UDPspeeder或者UDP2raw在非游戏模式下也能使用了，注意如果游戏模式下kcptun串联UDPspeeder或者UDP2raw
+   		会导致udp blocked，因为在服务器端的串联链里有kcp，其不支持udp。要支持的话需要路由器端和服务器端双开UDPspeeder或者UDP2raw，
+   		这个功能虽然可以实现但是web会显得更复杂，所以暂时不做这个。
+   - fix	修复KCP在选择模式下，部分参数填写不全导致KCP进程无法启动的问题；
+   - fix	修复安装插件导致ssserver插件二进制丢失的问题；
+   - fix	修复部分帮助链接失效的问题；
+   - fix	修复节点面板错位的问题；
+
+3.7.6
+   - fix	修复某些情况下kcptun无法启动的问题；
+   - update	同步最新规则；
+
+3.7.5
+   - update	更新ss-libev到3.1.1
+   - fix	修复UDPspeeder其它参数设置无效的问题
+   - fix	修复UDP2raw某些时候进程启动失败的问题
+
+3.7.4
+   - update	更新UDPspeederv1、UDPspeederv2、UDP2raw二进制到最新
+   - fix	修复单开UDPspeeder(V1/V2)，udp加速无效的bug；
+   - fix	修复单开UDPspeeder(V1/V2)，MTU设置无效的bug；
+   - add	KCPTUN的绑定端口现在可以设置了，现在你可以像原来一样单独使用KCP加速，也能配置KCPTUN和UDPspeeder的串联、KCPTUN和UDP2raw的串联、
+   		KCPTUN先串联UDPspeeder，再串联UDP2raw、甚至UDP2raw串KCPTUN。我知道这很绕，不过只要知道下面的关系，相信如何配置，就难不倒你~
+   		tcp in udp：KCPTUN
+   		udp in udp：UDPspeeder
+   		udp in tcp：UDP2raw
+
+3.7.3
+
+   - 说明	1. UDP加速，包括UDPspeeder和UDP2raw，都只能支持ss和ssr的udp，不支持koolgame，koolgame已经自带了udp优化。
+     		2. UDP加速需要自己配置服务器端的UDPspeeder或者UDP2raw程序，从飞机场购买SS帐号的不能使用。
+   - add	增加UDP2raw的支持（感谢wangyu-的开源项目），支持单独使用UDP2raw，将ss-redir的UDP流量直接转成tcp流量，应对UDP屏蔽或QoS，或在UDP不稳定的环境下提升稳定性。，
+		也可以将UDPspeeder(V1/V2)与UDP2raw串联，将ss-redir的UDP经过UDPspeeder加速后，通过UDP2raw转成TCP流量。
+		UDPspeeder(V1/V2)与UDP2raw简要的使用说明：
+		正确开启的姿势：
+		 0. 服务器端：配置并UDPspeeder(V1/V2)/UDP2raw的服务器端程序
+		 1. 路由器下：当前正在使用游戏模式或者访问控制主机中有游戏模式主机；
+		 2. 路由器下：UDP加速的节点和正在使用的节点一致；
+		 3. 路由器下：正确配置并开启UDPspeeder(V1/V2)或UDP2raw，或者两者都开启（串联模式）。
+		使用情形：
+		 1. 单独使用UDPspeeder(V1或V2)：ss-redir(UDP) -- UDPspeeder(UDP) ------ UDPspeeder(UDP) -- ssserver(UDP)，即udp in udp模式
+		 2. 单独使用UDP2raw：ss-redir(UDP) -- UDP2raw(TCP) ------ UDP2raw(TCP) -- ssserver(UDP)，即udp in tcp模式
+		 3. UDPspeeder(V1或V2)和UDP2raw一起使用（串联）：ss-redir(UDP) -- UDPspeeder(UDP) -- UDP2raw(TCP) ------ UDP2raw(TCP) -- UDPspeeder(UDP) -- ssserver(UDP)，即udp in tcp模式
+		UDPspeeder(V1/V2)针对udp传输进行优化，能加速udp，降低udp的丢包，特别适合游戏。
+		UDP2raw可以将udp协议转为tcp，准确的说UDP2raw不是一个udp加速工具，而是应对UDP屏蔽或QoS，或在UDP不稳定的环境下提升稳定性的工具。
+		如果你的运营商屏蔽了UDP，或者UDP及其不稳定，可以使用UDP2raw配合UDPspeeder(V1/V2)串联使用来绕过屏蔽，并且实现udp加速。
+		其它：   		
+		KCPTUN的TCP加速是把ss-redir的TCP流量转为UDP流量，相当于tcp in udp，虽然此udp也能和UDPspeeder/UDP2raw串联，甚至三者一起串联使用，
+		但是为了不增加插件复杂度，同时考虑到merlin arm路由器着急的性能，目前暂时不支持KCP和UDPspeeder/UDP2raw的串联配置，未来会考虑开放该配置。
+		目前使用UDPspeeder/UDP2raw均需要在服务器上配置运行相应的程序，在路由器下运行UDPspeeder和UDP2raw的串联，同时需要服务端两者的串联配置，
+		简单的来讲，UDPspeeder的运行不需要特殊的更改就能用于单独使用和串联使用，而UDP2raw单独使用的时候其远程端口（-r）应该配置为服务器上ss程序的监听端口
+		而串联使用下，UDP2raw的远程端口（-r）应该配置为服务器上UDPspeeder程序的监听端口。
+		例如：服务器上配置了ssserver监听在0.0.0.0:8083
+		 1. 单独使用UDPspeeder的话，服务器UDPspeeder上配置 -l 0.0.0.0:8855 -r127.0.0.1:8083；路由器下UDPspeeder服务器填写 vpsip:8855
+		 2. 单独使用UDP2raw的话，服务器UDP2raw上配置 -l 0.0.0.0:8866 -r127.0.0.1:8083；路由器下UDP2raw服务器填写 vpsip:8866
+		 3. UDPspeeder和UDP2raw串联的话，服务器UDP2raw上配置 -l 0.0.0.0:8877 -r127.0.0.1:8855，服务器UDPspeeder配置不变；路由器下UDP2raw服务器填写 vpsip:8877，路由器UDPspeeder配置不变.
+		以上只说明了端口的配置情形，其它参数请参考UDPspeeder(V1/V2)与UDP2raw的官方文档。
+   - add	因为UDPspeeder(V1/V2)和UDP2raw对上游软件的MTU有要求，增加ss/ssr-redir MTU，以达到更好的UDP加速效果。不知道如何设定的请选择不设定，以免造成不必要的问题
+   - fix	修复开启koolproxy后，科学上网插件的白名单失效的问题。
+   - fix	修复udpspeeder某些值配置为空的情况下开启失败。
+   - add	udpspeederv2增加其他参数，方便填写一些没有列出来的高级参数。
+   - fix	修复界面的一些小问题。
+   - add	在一些必要的地方增加帮助链接，点击可以直接查看简要帮助信息。
+   - update	现在规则更新不开启自动更新或者不勾选更新项目也能在页面点击更新了。
+
+3.7.2
+   - fix	修复firefox下日志不能滚动的问题，负载均衡和socks5页面错位的问题
+   - fix	修复主模式不为游戏模式，访问控制中有游戏模式主机的时候udp不通的问题
+   - update	现在udp加速在访问控制里有游戏模式主机时也能工作（udp加速启动条件：勾选udp加速 + 加速节点和正在使用的节点一致 + 主模式或者访问控制启用游戏模式）
+   - update	kcptun二进制更新到20171113
+
+3.7.1
+   - fix	修复节点添加、编辑功能
+   - fix	修复kcp启动后实际未加速的问题
+   - fix	其它一些小问题
+
+3.7.0
+   - update	现在点击科学上网开关不再隐藏相关页面元素
+   - add	订阅链接支持注释如：（#https//ssr.com/xxx #订阅1）订阅1将不会订阅
+   - add	增加kcp参数输入方式，现在可以选填输入
+   - update	游戏模式现在也能使用kcp加速（tcp部分走kcp协议，udp部分走原ss协议）
+   - update	现在SS AEAD下也能使用游戏模式
+   - add	增加udp加速功能，能使用UDPspeederV1和UDPspeederV2对游戏模式udp进行加速
+   		目前不支持UDPspeeder和kcp串联使用（ss流量的tcp走kcp，kcp走UDPspeeder），
+   		但是可以并联使用（ss流量的tcp走kcp，udp走UDPspeeder）
+
+
+3.6.9
+   - fix	修复ssr下速度过慢；
+   - fix	修复订阅中自定义混淆参数无效的问题；
+   - fix	修复ss:// ssr:// 链接无法添加节点的问题；
+
+3.6.8
+   - update	经测试，使用mbedtls 2.6.0依赖，速度不如mbedtls 2.5.1，因此重新编译相关二进制文件。
+   		更新ss-libev, simple-obfs, ssrr-libev, mbedtls依赖更换为2.5.1版本，libsodium版为1.0.13版本。
+
+3.6.7
+   - fix	修复dnsmasq设置，黑白名单，订阅链接无法保存
+
+3.6.5 - 3.6.6
+   - 说明	从3.6.5开始，SS插件和之前版本的数据格式不完全兼容！升级到3.6.5将会尝试升级原先的数据！
+   		如果你安装此版本后仍然有问题（ssr节点可能变成ss节点），请尝试清空ss数据后重新录入！
+   		另外插件更名为【科学上网】，作为集成科学上网的工具的插件，本插件是支持SS、SSR、koolgame三种客户端的科学上网、游戏加速工具。
+   		未来可能会进一步增加brook和v2ray的支持到本插件。本次升级为了方便未来增加新的客户端而做了大量的更改。
+   - 须知	升级后需要强制刷新缓存：ctrl + F5,界面才能正常。
+   - update	优化后台对SS数据处理。一直以来修修补补导致很多问题，因此此部分更新较大，更新后老版本的ss数据可能和此版本出现兼容问题，
+   		虽然此版本在安装的时候会对ss数据进行升级转换，但是并不能完全保证不出任何问题，
+   		所以使用3.6.5插件的朋友，建议大家采取以下方式安装：
+   		1. 插件内更新，从3.6.4或者更低版本，版本更新到3.6.5或者更高，更新过程会对数据进行升级处理，但是不保证不出问题
+   		2. 插件内更新，通过插件内更新后，在【附加功能】内清空配置，然后重新手动配置节点，或者重新订阅节点，别用以前的备份文件进行恢复
+   		3. 【附加功能】内清空配置，卸载插件，然后通过离线安装或者SSH全新安装科学上网插件。
+   		4.成功升级3.6.5后建议重新生成备份文件。
+   - update	由于插件当初设计不合理，将【游戏模式v2】单作为了一个模式来使用，而该模式又需要单独的koolgame客户端和服务器端来配合使用，
+   		并不兼容SS和SSR, 而SS、SSR、koolgame都是作为代理的软件，而之前的设计中，经常有用户在SS和SSR下使用【游戏模式v2】，
+   		或者在koolgame下使用gfwlist模式，大陆白名单模式，这些做法在之前的版本中都是不科学的用法；
+   		现在为了插件更好的扩展性，将【游戏模式v2】更改为koolgame，作为并列于SS、SSR软件的一个代理软件，
+   		也方便未来增加brook甚至v2ray等代理软件，插件本身也同时更名为科学上网插件，不再是shadowsocks插件；
+   		现在使用koolgame下也能选择gfwlist模式，大陆白名单模式，游戏模式，全局模式，回国模式，并且支持SS、SSR使用的访问控制；
+   		可以将koolgame单纯作为一个翻墙软件，使用gfwlist，大陆白名单模式等，也可以使用游戏模式用于游戏加速
+   		（效果等同于之前版本选择游戏模式v2节点下使用游戏模式v2），现在koolgame下国外DNS还是暂时只支持koolgame内置的dns2ss，
+   		未来会进一步开放全部DNS支持；
+   - update	更新shadowsocks-libev和simple-obfs二进制到最新，此次的编译应该能解决ss-redir,ss-local进程无故死掉的问题
+   - update	更新shadowsocksrr-libev二进制到最新，支持chain_e, chain_f，但是请慎用这两种混淆，因为可能导致不稳定。
+   - update	添加xchacha20-ietf-poly1305加密方式支持(ss only)；
+   - update	以前为了美观，SSR协议参数为空的时候没有显示，现在不管是不是空的都会显示；
+   - remove	移除SS,SSR,V2软件切换选项，因为他们之间并不完全兼容。
+   - update	kcp加速开关移动到新的标签页,注意因为游戏模式和SS AEAD下不支持kcp，因此kcp标签页隐藏
+   - remove	【电报交流】和【一键脚本】移动到【插件帮助】按钮内，为增加更多标签页腾出空间。
+   - update	同步最新规则到11月11日；
+   - fix	修复订阅节点时报错arithmetic syntax error；
+   - fix	修复订阅节点无法修改节点信息；
+   - fix	修复节点订阅导致负载均衡节点的权重和模式丢失；
+   - fix	彻底修复黑白名单和dnsmasq设置等输入框产生乱码；
+   - add	现在插件首次安装后，在没有节点信息的情况下开启开关，会提示输入节点；
+   - fix	修复Firefox等浏览器下标签页间隔过大导致界面交错，修复页面顶部排版；
+   - fix	修复koolgame下黑名单不起作用的bug。
+   - fix	修复可能的gfwlist模式下国内域名被国外dns解析导致分流不正常。
 
 3.6.4
    - add	帐号设置界面可以切换ssr功能回归，并可以切换v2节点；
