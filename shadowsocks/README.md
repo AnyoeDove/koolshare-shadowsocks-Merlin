@@ -4,9 +4,6 @@
 <b>shadowsocks文件夹下的内容，用于向路由器内shadowsocks功能推送更新</b><br/>
 <b>此项目仅用于merlin koolshare ARM架构改版固件</b><br/>
 
-* <b>shadowsocks.tar.gz</b><br/>
-此文件为shadowsocks文件夹的打包，通过路由器访问 [https://raw.githubusercontent.com/koolshare/koolshare.github.io/master/shadowsocks/shadowsocks.tar.gz](https://raw.githubusercontent.com/koolshare/koolshare.github.io/master/shadowsocks/shadowsocks.tar.gz) 获取安装包更新。
-
 ## 如果你更新出现问题，请按照以下方式手动更新：
 <pre>
 cd /tmp
